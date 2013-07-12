@@ -1,9 +1,76 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>Javascript Inheritance for Beginners</title>
 </head>
 <body>
+    <h1>Javascript Inheritance for Beginners</h1>
+    <p>Source: See article on <a href="https://coderwall.com/p/5_ir6g">Javascript Inheritance</a></p>
 
+    <div id="test"></div>
+
+
+    <script>
+        (function() {
+            // parent class
+            function pet() {
+                // privileged property
+                this.name = 'Nyan';
+
+                // privileged function
+                this.getName = function() { return this.name; }
+
+                // privileged function
+                this.setName = function(_name) { this.name = _name; }
+            }
+
+            // public method
+            pet.prototype.whatPet = function() {
+                return 'Im a meme cat!';
+            }
+
+            // child class magic
+            function dog() {
+                // call parent constructor
+                pet.call(this);
+                this.name = 'Ceasar';
+            }
+
+            // is child of pet
+            dog.prototype = new pet();
+            // uses its own constructor
+            dog.prototype.constructor = dog;
+
+            // override public method: whatPet
+            dog.prototype.whatPet = function() {
+                return 'Im a flying superdog';
+            }
+
+
+            var myPet = new pet();
+
+            document.getElementById('test').innerHTML += myPet.whatPet()+' | My name is: '+myPet.getName()+'<br />';
+            myPet.setName('Gandalf');
+            document.getElementById('test').innerHTML += myPet.whatPet()+' | My name is: '+myPet.getName()+'<br />';
+
+            document.getElementById('test').innerHTML += '<br />';
+
+            var mySecondPet = new dog();
+            document.getElementById('test').innerHTML += mySecondPet.whatPet()+' | My name is: '+mySecondPet.getName()+'<br />';
+            mySecondPet.setName('Spot');
+            document.getElementById('test').innerHTML += mySecondPet.whatPet()+' | My name is: '+mySecondPet.getName()+'<br />';
+
+            document.getElementById('test').innerHTML += '<br />';
+
+            document.getElementById('test').innerHTML += 'Is myPet instance of class pet: '+(myPet instanceof pet)+'<br />';
+            document.getElementById('test').innerHTML += 'Is myPet instance of class dog: '+(myPet instanceof dog)+'<br />';
+
+            document.getElementById('test').innerHTML += '<br />';
+
+            document.getElementById('test').innerHTML += 'Is mySecondPet instance of class pet: '+(mySecondPet instanceof pet)+'<br />';
+            document.getElementById('test').innerHTML += 'Is mySecondPet instance of class dog: '+(mySecondPet instanceof dog)+'<br />';
+
+        })();
+    </script>
 </body>
 </html>
